@@ -55,45 +55,6 @@ def ca(cn="dances.tango"):
         f.write(ca_cert.public_bytes(serialization.Encoding.PEM))
     return [ca_key, ca_cert]
 
-def server(ca_key, cn="my_server.dances.tango"):
-    '''Generate a private key for the server'''
-    server_key = rsa.generate_private_key(
-        public_exponent=65537,
-        key_size=2048
-    )
-
-    # Create a server certificate signed by the CA
-    server_cert = x509.CertificateBuilder().subject_name(
-        x509.Name([
-            x509.NameAttribute(NameOID.COMMON_NAME, cn),
-        ])
-    ).issuer_name(
-        ca_cert.subject
-    ).serial_number(
-        x509.random_serial_number()
-    ).not_valid_before(
-        datetime.now(UTC)
-    ).not_valid_after(
-        datetime.now(UTC) + timedelta(days=365)
-    ).public_key(
-        server_key.public_key()
-    ).add_extension(
-        x509.BasicConstraints(ca=False, path_length=None),
-        critical=True,
-    ).sign(ca_key, SHA256())
-    
-    outpath = cn+"_key.pem"
-    with open(outpath, "wb") as f:
-        f.write(server_key.private_bytes(
-            encoding=serialization.Encoding.PEM,
-            format=serialization.PrivateFormat.PKCS8,
-            encryption_algorithm=serialization.NoEncryption()
-        ))
-    
-    outpath = cn+"_cert.prm"
-    with open(outpath, "wb") as f:
-        f.write(server_cert.public_bytes(serialization.Encoding.PEM))
-
 def mkstuff(ca_key, ca_cert, cn="myclient.dances.tango"):
     '''Generate a private key for the client'''
     client_key = rsa.generate_private_key(
