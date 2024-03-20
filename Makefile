@@ -1,6 +1,10 @@
 .PHONY: verify run clean
 run:
 	python3 ./runme.py
+install:
+	virtualenv venv
+	source venv/bin/activate
+	pip install -r requirements.txt
 clean:
 	rm -fr *.pem
 help:
