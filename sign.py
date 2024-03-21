@@ -1,5 +1,5 @@
 
-'''A script to sign from a working CA'''
+'''A script to generate certificate and key for a host from a working CA'''
 
 from datetime import datetime, timedelta, UTC
 import argparse
@@ -18,7 +18,8 @@ def parser():
     cakey = f"{domain}_ca_key.pem"
 
     clt= f"newhost1.{domain}"
-    prsr = argparse.ArgumentParser(description='Process some integers.')
+    prsr = argparse.ArgumentParser(description='I create a set of certificate and key for a host by using an \
+        existing CA key and certificate.')
     prsr.add_argument('--cacert',
                     help=f"the CA certificate , default is {cacert}", default=cacert)
     prsr.add_argument('--cakey',

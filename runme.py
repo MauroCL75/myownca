@@ -1,5 +1,5 @@
 '''
-lala
+I create the CA, certificates and keys from scratch
 '''
 
 from datetime import datetime, timedelta, UTC
@@ -99,7 +99,8 @@ def parser():
     domain = "dances.tango"
     srv="srv1"
     clt="clt1"
-    prsr = argparse.ArgumentParser(description='Process some integers.')
+    prsr = argparse.ArgumentParser(description='I generate a CA key and certificate then \
+                                   a set of clients and server keys and certificate by using the CA just created.')
     prsr.add_argument('--caname',
                     help=f"the CA name , default is {domain}", default=domain)
     prsr.add_argument('--servers', 
